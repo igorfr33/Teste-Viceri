@@ -24,32 +24,39 @@ namespace TesteViceri_Herois.Controllers
         [HttpPost, Route("/api/AdcionarHeroisSuperPoder")]
         public async Task<ActionResult<HeroisSuperPoderesModel>> AdcionarHeroiSuperPoder(HeroisSuperPoderesModel heroisSuperPoderesModel)
         {
+            string mensagem = "Heroi e Superpoder Cadastrado";
+
             _context.HeroisSuperpoderes.Add(heroisSuperPoderesModel);
             await _context.SaveChangesAsync();
 
-            return heroisSuperPoderesModel;
+            return Ok(mensagem);
         }
 
         [HttpDelete, Route("/api/DeletarHeroisSuperPoderesModel/{id}")]
         public async Task<IActionResult> DeletarHeroisSuperPoderesModel(int id)
         {
+            string mensagemNotFound = "Heroi Superpoder não encontrado";
+            string mensagemOk = "Heroi Superpoder deletado";
+
             var heroi = await _context.Herois.FindAsync(id);
             if (heroi == null)
             {
-                return NotFound();
+                return NotFound(mensagemNotFound);
             }
             _context.Herois.Remove(heroi);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(mensagemOk);
         }
 
         [HttpPut, Route("/api/AtualizaHeroiSuperPoder/{id}")]
         public async Task<IActionResult> AtualizarHeroi(int id, HeroisSuperPoderesModel heroi)
         {
+            string mensagemBadRequest = "Id não localizado";
+
             if (id != heroi.HeroiId)
             {
-                return BadRequest();
+                return BadRequest(mensagemBadRequest);
             }
 
             _context.Entry(heroi).State = EntityState.Modified;
@@ -57,6 +64,9 @@ namespace TesteViceri_Herois.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+
+                string mensagem = "Heroi Superpoder atualizado";
+                return Ok(mensagem);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -76,13 +86,14 @@ namespace TesteViceri_Herois.Controllers
         [HttpGet, Route("/api/ListaHeroisSuperPoderes")]
         public async Task<ActionResult<IEnumerable<HeroisSuperPoderesModel>>> ListaHeroi()
         {
-            var heroi = await _context.Herois.ToListAsync();
-            if (heroi == null)
+          
+            var heroiSuperpoder = await _context.HeroisSuperpoderes.ToListAsync();
+            if (heroiSuperpoder == null)
             {
                 return NoContent();
             }
 
-            return Ok(heroi);
+            return Ok(heroiSuperpoder);
         }
         #endregion
 

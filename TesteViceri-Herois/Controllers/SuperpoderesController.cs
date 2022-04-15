@@ -23,17 +23,22 @@ namespace TesteViceri_Herois.Controllers
         [HttpPost, Route("/api/AdcionarSuperpoder")]
         public async Task<ActionResult<SuperpoderesModel>> AdcionarSuperpoderes(SuperpoderesModel superPoder)
         {
+            string mensagem = "Superpoder cadastrado";
+
             _context.Superpoderes.Add(superPoder);
             await _context.SaveChangesAsync();
 
-            return superPoder;
+            return Ok(mensagem);
         }
 
         [HttpDelete, Route("/api/DeletarSuperpoder/{id}")]
         public async Task<IActionResult> DeletarSuperpoderes(int id)
         {
             var heroi = await _context.Herois.FindAsync(id);
+
             string mensagem = "Não há conteudo";
+            string mensagemOK = "Superpoder deletado";
+
             if (heroi == null)
             {
                 return NotFound(mensagem);
@@ -41,22 +46,27 @@ namespace TesteViceri_Herois.Controllers
             _context.Herois.Remove(heroi);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(mensagemOK);
         }
 
         [HttpPut, Route("/api/AtualizaSuperPoder/{id}")]
         public async Task<IActionResult> AtualizarHeroi(int id, SuperpoderesModel superpoderes)
         {
+            string mensagemBadRequest = "Id não localizado";
+
             if (id != superpoderes.Id)
             {
-                return BadRequest();
+                return BadRequest(mensagemBadRequest);
             }
 
             _context.Entry(superpoderes).State = EntityState.Modified;
 
             try
             {
+                string mensagem = "Superpoder Atualizado";
+
                 await _context.SaveChangesAsync();
+                return Ok(mensagem);
             }
             catch (DbUpdateConcurrencyException)
             {

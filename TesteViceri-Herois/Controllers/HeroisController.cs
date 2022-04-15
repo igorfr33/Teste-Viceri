@@ -23,10 +23,12 @@ namespace TesteViceri_Herois.Controllers
         [HttpPost, Route("/api/AdcionarHeroi")]
         public async Task<ActionResult<HeroisModel>> AdcionarHeroi(HeroisModel herois)
         {
+            string mensagem = "Heroi Cadastrado";
+
             _context.Herois.Add(herois);
             await _context.SaveChangesAsync();
 
-            return herois;
+            return Ok(mensagem);
         }
 
         [HttpDelete, Route("/api/DeletarHeroi/{id}")]
