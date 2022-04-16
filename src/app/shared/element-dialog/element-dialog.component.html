@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>Cadastrar Heroi</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Id</mat-label>
+    <input matInput [(ngModel)]="data.id">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Nome</mat-label>
+    <input matInput [(ngModel)]="data.nome">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>NomeHeroi</mat-label>
+    <input matInput [(ngModel)]="data.nomeHeroi">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>DataNascimento</mat-label>
+    <input matInput [(ngModel)]="data.dataNascimento">
+  </mat-form-field>
+  
+  <mat-form-field>
+    <mat-label>Altura</mat-label>
+    <input matInput [(ngModel)]="data.altura">
+  
+</mat-form-field>
+  <mat-form-field>
+    <mat-label>Peso</mat-label>
+    <input matInput [(ngModel)]="data.peso">
+  </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Cadastrar</button>
+</div>
