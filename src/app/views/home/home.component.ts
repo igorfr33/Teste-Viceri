@@ -53,6 +53,10 @@ export class HomeComponent implements OnInit {
     }); 
   }
 
+  editarHeroi(element: PeriodicElement) : void {
+    this.openDialog(element);
+  }
+
   deleteHeroi(id: number) : void{
     this.dataSource = this.dataSource.filter(p => p.id !== id);
   }

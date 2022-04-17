@@ -1,4 +1,5 @@
-<h1 mat-dialog-title>Cadastrar Heroi</h1>
+<h1 *ngIf="!isChange" mat-dialog-title>Cadastrar Heroi</h1>
+<h1 *ngIf="isChange" mat-dialog-title>Atualizar Heroi</h1>
 <div mat-dialog-content>
   <mat-form-field>
     <mat-label>Id</mat-label>
@@ -33,5 +34,6 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onCancel()">Cancelar</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Cadastrar</button>
+  <button mat-button *ngIf="!isChange" [mat-dialog-close]="data" cdkFocusInitial>Cadastrar</button>
+  <button mat-button *ngIf="isChange" [mat-dialog-close]="data" cdkFocusInitial>Atualizar</button>
 </div>
