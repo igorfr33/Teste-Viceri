@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TesteViceri_Herois.Data;
 using TesteViceri_Herois.Model;
@@ -31,7 +32,7 @@ namespace TesteViceri_Herois.Controllers
             return Ok(mensagem);
         }
 
-        [HttpDelete, Route("/api/DeletarHeroi/{id}")]
+        [HttpDelete, Route("/api/DeletarHeroi")]
         public async Task<IActionResult> DeletarHeroi(int id)
         {
             string mensagem = "Heroi Não Encontrado";
@@ -47,35 +48,18 @@ namespace TesteViceri_Herois.Controllers
             return Ok(mensagemOk);
         }
 
-        [HttpPut, Route("/api/AtualizaHeroi{id}")]
-        public async Task<IActionResult> AtualizarHeroi(int id, HeroisModel heroi)
+        [HttpPut, Route("/api/AtualizaHeroi")]
+        public async Task<IActionResult> EditarHeroi(HeroisModel heroi)
         {
-            string mensagem = "Id não localizado";
-            if (id != heroi.Id)
+            if (!_context.Herois.Any(e => e.Id == heroi.Id))
             {
-                return BadRequest(mensagem);
+                return NotFound();
             }
 
-            string mensagemNoContent = "Não há herois cadastrados";
             _context.Entry(heroi).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ExisteHeroi(id))
-                {
-                    return NoContent();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(heroi);
         }
 
         [HttpGet, Route("/api/ListaHerois")]
